@@ -6,7 +6,10 @@ plugins {
     kotlin("jvm") version "1.8.22"
     kotlin("plugin.spring") version "1.8.22"
     kotlin("plugin.jpa") version "1.8.22"
+    id("com.netflix.dgs.codegen") version "5.6.9"
 }
+
+val dgsVersion = "7.2.0"
 
 group = "com.example"
 version = "0.0.1-SNAPSHOT"
@@ -27,7 +30,13 @@ repositories {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
+
+    // DGS
+    implementation(platform("com.netflix.graphql.dgs:graphql-dgs-platform-dependencies:latest.release"))
+    implementation("com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter")
+
     compileOnly("org.projectlombok:lombok")
     runtimeOnly("org.postgresql:postgresql")
     annotationProcessor("org.projectlombok:lombok")
@@ -43,4 +52,11 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+tasks{
+    generateJava{
+        packageName = "com.example.dgstut.generated" // The package name to use to generate sources
+        typeMapping = mutableMapOf("UUID" to "java.util.UUID")
+        generateClient = true
+    }
 }

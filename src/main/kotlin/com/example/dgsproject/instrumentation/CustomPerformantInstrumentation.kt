@@ -1,4 +1,4 @@
-package com.example.dgsproject
+package com.example.dgsproject.instrumentation
 
 import com.netflix.graphql.dgs.context.DgsContext
 import graphql.ExecutionResult
@@ -29,12 +29,13 @@ class CustomPerformantInstrumentation: SimplePerformantInstrumentation() {
         return super.beginExecution(parameters, state)
     }
     override fun instrumentDataFetcher(
-        dataFetcher: DataFetcher<*>?,
+        dataFetcher: DataFetcher<*>,
         parameters: InstrumentationFieldFetchParameters?,
         state: InstrumentationState?
     ): DataFetcher<*> {
         println("executing")
-        return DataFetcher { environment -> {
+        return dataFetcher
+/*        return DataFetcher { environment -> {
             val result = dataFetcher?.get(environment)
 
             val dgsContext: DgsContext = DgsContext.from(environment)
@@ -43,6 +44,6 @@ class CustomPerformantInstrumentation: SimplePerformantInstrumentation() {
 
 
             result
-        } }
+        } }*/
     }
 }

@@ -1,0 +1,28 @@
+type Query {
+    shows(titleFilter: String): [Show],
+
+    hello: String,
+
+    getUserByUserName(username: String): User
+    @customDirective(scope: READ),
+
+    getAllUsers: [User]
+
+}
+
+type Show {
+    title: String
+    releaseYear: Int
+}
+
+type User {
+    username: String,
+    email: String
+}
+
+directive @customDirective(scope : AppPermissions!) on FIELD_DEFINITION
+
+enum AppPermissions {
+    READ,
+    WRITE
+}
