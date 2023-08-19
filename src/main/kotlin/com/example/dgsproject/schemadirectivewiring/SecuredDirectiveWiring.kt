@@ -47,10 +47,6 @@ class SecuredDirectiveWiring(
         }
 
         environment.codeRegistry.dataFetcher(parentType, field, authDataFetcher)
-
-        println(directive.arguments)
-
-        println("asd")
         return field
     }
 
